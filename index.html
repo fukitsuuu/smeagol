@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For You, Graduate 💕</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Quicksand', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            blush: '#fce4ec',
+            rose: '#f48fb1',
+            deepRose: '#c2185b',
+            cream: '#fff8f0',
+            parchment: '#fdf6ee',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body { background: linear-gradient(135deg, #fff8f0 0%, #fce4ec 50%, #f8bbd9 100%); min-height: 100dvh; }
+    .digit:focus { outline: none; box-shadow: 0 0 0 3px rgba(244, 143, 177, 0.45); }
+    .shake { animation: shake 0.5s ease-in-out; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .fade-in { animation: fadeIn 1s ease forwards; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .float { animation: float 4s ease-in-out infinite; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .envelope-flap { transform-origin: top center; transition: transform 0.6s ease; }
+    .letter-reveal .envelope-flap { transform: rotateX(180deg); }
+  </style>
+</head>
+<body class="font-sans text-gray-800 antialiased">
+
+  <!-- Passcode screen -->
+  <section id="lock-screen" class="min-h-dvh flex flex-col items-center justify-center px-6 py-12">
+    <div class="text-center mb-8 float">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/70 shadow-lg shadow-rose/20 mb-4">
+        <span class="text-4xl" aria-hidden="true">💌</span>
+      </div>
+      <h1 class="font-serif text-3xl sm:text-4xl text-deepRose font-semibold tracking-wide">
+        A letter for you
+      </h1>
+      <p class="mt-2 text-gray-600 text-sm sm:text-base">Enter the secret code to open it</p>
+    </div>
+
+    <form id="passcode-form" class="w-full max-w-sm" autocomplete="off">
+      <div id="digit-row" class="flex justify-center gap-2 sm:gap-3 mb-6">
+        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="0" aria-label="Digit 1" />
+        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="1" aria-label="Digit 2" />
+        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="2" aria-label="Digit 3" />
+        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="3" aria-label="Digit 4" />
+        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="4" aria-label="Digit 5" />
+        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="5" aria-label="Digit 6" />
+      </div>
+
+      <p class="text-center text-sm text-gray-500 mb-4">
+        <span class="inline-flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-rose" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Hint: <em class="text-deepRose not-italic font-medium">The day we met (MM/DD/YY)</em>
+        </span>
+      </p>
+
+      <p id="error-msg" class="hidden text-center text-sm text-red-500 mb-3">That&apos;s not quite right. Try again, bebelabs.</p>
+
+      <button
+        type="submit"
+        class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose to-deepRose text-white font-semibold shadow-lg shadow-rose/30 hover:shadow-xl hover:brightness-105 active:scale-[0.98] transition"
+      >
+        Open letter
+      </button>
+    </form>
+  </section>
+
+  <!-- Letter screen -->
+  <section id="letter-screen" class="hidden min-h-dvh py-10 px-4 sm:px-6">
+    <article class="fade-in max-w-2xl mx-auto">
+      <div class="relative bg-parchment rounded-3xl shadow-2xl shadow-rose/15 border border-rose/10 overflow-hidden">
+        <div class="h-2 bg-gradient-to-r from-rose via-deepRose to-rose"></div>
+
+        <div class="px-6 sm:px-12 py-10 sm:py-14">
+          <p class="font-serif text-rose text-lg italic mb-2">May 31, 2026</p>
+          <h2 class="font-serif text-3xl sm:text-4xl text-deepRose font-semibold mb-8 leading-tight">
+            To my favorite graduate,
+          </h2>
+
+          <div class="font-serif text-lg sm:text-xl leading-relaxed text-gray-700 space-y-5">
+            <p>
+              Congratulations bebelabs!
+            </p>
+            <p>
+              Sobra mong ginagalingan kaya sobra akong proud sa jowa ko, Deserve na deserve mo yannn ☺️
+            </p>
+            <p>
+              Sorry kasi di ako makakaattend sa graduation day mo hayssss, kung alam mo lang kung gaano ko kagusto pumunta. Sobrang unfair lang kasi pumunta ka sa graduation ko kahit di mo ko nakitang nag marcha HAHAHAHAHA.
+            </p>
+            <p>
+                Goodluck sa mga mangyayari sa future mo at nating dalawa mahal, I know you'll be successful in whatever you do. Lagi lang akong susuporta sayo mahal ko 😚.
+            </p>
+            <p>
+              And sana magustuhan mo yung mga gifts sorry kung gutay gutay yung box ng flowers huhu anddd sana naalala mo yung sinabi kong mabibili ko yan relo sa sahod ko HAHAHAHHAA OHHHHH DI AKO TOKIS HAHAHAHAHA
+            </p>
+            <p>
+                Congrats ulit Grasyaaa, at <b>mahal na mahal kita</b> mwahhhhhhh
+            </p>
+          </div>
+
+          <div class="mt-10 pt-8 border-t border-rose/20">
+            <p class="font-serif text-2xl text-deepRose italic">Forever cheering for you, With all my love</p>
+            <p class="font-sans text-rose font-semibold mt-2 text-lg">-Kholin pogi hart hart hikhok</p>
+            <p class="mt-6 text-3xl" aria-hidden="true">🎓 💕</p>
+          </div>
+        </div>
+
+        <div class="h-1 bg-gradient-to-r from-transparent via-rose/30 to-transparent"></div>
+      </div>
+
+      <button
+        id="lock-again"
+        type="button"
+        class="mt-8 mx-auto block text-sm text-gray-500 hover:text-deepRose transition underline-offset-2 hover:underline"
+      >
+        Close letter
+      </button>
+    </article>
+  </section>
+
+  <script>
+    // Change this to your meeting date: MMDDYY (e.g. June 15, 2020 → 061520)
+    const PASSCODE = '122724';
+
+    const lockScreen = document.getElementById('lock-screen');
+    const letterScreen = document.getElementById('letter-screen');
+    const form = document.getElementById('passcode-form');
+    const digitRow = document.getElementById('digit-row');
+    const errorMsg = document.getElementById('error-msg');
+    const digits = [...document.querySelectorAll('.digit')];
+    const lockAgainBtn = document.getElementById('lock-again');
+
+    digits[0].focus();
+
+    function getPasscode() {
+      return digits.map((d) => d.value).join('');
+    }
+
+    function clearDigits() {
+      digits.forEach((d) => { d.value = ''; });
+      digits[0].focus();
+    }
+
+    function showError() {
+      errorMsg.classList.remove('hidden');
+      digitRow.classList.add('shake');
+      setTimeout(() => digitRow.classList.remove('shake'), 500);
+      clearDigits();
+    }
+
+    function openLetter() {
+      errorMsg.classList.add('hidden');
+      lockScreen.classList.add('hidden');
+      letterScreen.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeLetter() {
+      letterScreen.classList.add('hidden');
+      lockScreen.classList.remove('hidden');
+      clearDigits();
+      errorMsg.classList.add('hidden');
+    }
+
+    function tryUnlock() {
+      if (getPasscode() === PASSCODE) {
+        openLetter();
+      } else {
+        showError();
+      }
+    }
+
+    digits.forEach((input, i) => {
+      input.addEventListener('input', (e) => {
+        const val = e.target.value.replace(/\D/g, '');
+        e.target.value = val.slice(-1);
+        if (val && i < 5) digits[i + 1].focus();
+        if (getPasscode().length === 6) tryUnlock();
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && i > 0) {
+          digits[i - 1].focus();
+        }
+        if (e.key === 'ArrowLeft' && i > 0) digits[i - 1].focus();
+        if (e.key === 'ArrowRight' && i < 5) digits[i + 1].focus();
+      });
+
+      input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasted = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6);
+        pasted.split('').forEach((ch, j) => { digits[j].value = ch; });
+        if (pasted.length === 6) tryUnlock();
+        else digits[Math.min(pasted.length, 5)].focus();
+      });
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (getPasscode().length < 6) {
+        errorMsg.textContent = 'Please enter all 6 digits.';
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+      tryUnlock();
+    });
+
+    lockAgainBtn.addEventListener('click', closeLetter);
+  </script>
+</body>
+</html>
