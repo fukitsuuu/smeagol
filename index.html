@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>For You, Graduate 💕</title>
+  <title>Access Required</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,8 +28,10 @@
     };
   </script>
   <style>
-    body { background: linear-gradient(135deg, #fff8f0 0%, #fce4ec 50%, #f8bbd9 100%); min-height: 100dvh; }
-    .digit:focus { outline: none; box-shadow: 0 0 0 3px rgba(244, 143, 177, 0.45); }
+    body { min-height: 100dvh; transition: background 0.4s ease; }
+    body.lock-page { background: linear-gradient(160deg, #f8fafc 0%, #e2e8f0 100%); }
+    body.letter-page { background: linear-gradient(135deg, #fff8f0 0%, #fce4ec 50%, #f8bbd9 100%); }
+    #lock-screen .digit:focus { outline: none; box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.35); }
     .shake { animation: shake 0.5s ease-in-out; }
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
@@ -41,57 +43,57 @@
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .float { animation: float 4s ease-in-out infinite; }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-    .envelope-flap { transform-origin: top center; transition: transform 0.6s ease; }
-    .letter-reveal .envelope-flap { transform: rotateX(180deg); }
   </style>
 </head>
-<body class="font-sans text-gray-800 antialiased">
+<body class="lock-page font-sans text-gray-800 antialiased">
 
   <!-- Passcode screen -->
   <section id="lock-screen" class="min-h-dvh flex flex-col items-center justify-center px-6 py-12">
-    <div class="text-center mb-8 float">
-      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/70 shadow-lg shadow-rose/20 mb-4">
-        <span class="text-4xl" aria-hidden="true">💌</span>
+    <div class="w-full max-w-sm">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-8 sm:p-10">
+        <div class="flex justify-center mb-6">
+          <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-slate-100 text-slate-600">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+        </div>
+
+        <h1 class="text-xl sm:text-2xl font-semibold text-slate-800 text-center tracking-tight">
+          Protected content
+        </h1>
+        <p class="mt-2 text-slate-500 text-sm text-center">
+          Enter your 6-digit access code to continue.
+        </p>
+
+        <form id="passcode-form" class="mt-8" autocomplete="off">
+          <div id="digit-row" class="flex justify-center gap-2 sm:gap-2.5 mb-5">
+            <input type="text" inputmode="numeric" maxlength="1" class="digit w-10 h-12 sm:w-11 sm:h-14 text-center text-lg font-medium rounded-lg border border-slate-300 bg-slate-50 focus:border-slate-500 focus:bg-white transition" data-index="0" aria-label="Digit 1" />
+            <input type="text" inputmode="numeric" maxlength="1" class="digit w-10 h-12 sm:w-11 sm:h-14 text-center text-lg font-medium rounded-lg border border-slate-300 bg-slate-50 focus:border-slate-500 focus:bg-white transition" data-index="1" aria-label="Digit 2" />
+            <input type="text" inputmode="numeric" maxlength="1" class="digit w-10 h-12 sm:w-11 sm:h-14 text-center text-lg font-medium rounded-lg border border-slate-300 bg-slate-50 focus:border-slate-500 focus:bg-white transition" data-index="2" aria-label="Digit 3" />
+            <input type="text" inputmode="numeric" maxlength="1" class="digit w-10 h-12 sm:w-11 sm:h-14 text-center text-lg font-medium rounded-lg border border-slate-300 bg-slate-50 focus:border-slate-500 focus:bg-white transition" data-index="3" aria-label="Digit 4" />
+            <input type="text" inputmode="numeric" maxlength="1" class="digit w-10 h-12 sm:w-11 sm:h-14 text-center text-lg font-medium rounded-lg border border-slate-300 bg-slate-50 focus:border-slate-500 focus:bg-white transition" data-index="4" aria-label="Digit 5" />
+            <input type="text" inputmode="numeric" maxlength="1" class="digit w-10 h-12 sm:w-11 sm:h-14 text-center text-lg font-medium rounded-lg border border-slate-300 bg-slate-50 focus:border-slate-500 focus:bg-white transition" data-index="5" aria-label="Digit 6" />
+          </div>
+
+          <p class="text-center text-xs text-slate-400 mb-4">
+            Hint: <span class="text-slate-600">The day we met</span>
+            <span class="text-slate-400"> · MM/DD/YY</span>
+          </p>
+
+          <p id="error-msg" class="hidden text-center text-sm text-red-600 mb-3">Incorrect code. Please try again.</p>
+
+          <button
+            type="submit"
+            class="w-full py-3 rounded-lg bg-slate-800 text-white text-sm font-medium hover:bg-slate-700 active:scale-[0.99] transition"
+          >
+            Continue
+          </button>
+        </form>
       </div>
-      <h1 class="font-serif text-3xl sm:text-4xl text-deepRose font-semibold tracking-wide">
-        A letter for you
-      </h1>
-      <p class="mt-2 text-gray-600 text-sm sm:text-base">Enter the secret code to open it</p>
+
+      <p class="mt-6 text-center text-xs text-slate-400">Authorized access only</p>
     </div>
-
-    <form id="passcode-form" class="w-full max-w-sm" autocomplete="off">
-      <div id="digit-row" class="flex justify-center gap-2 sm:gap-3 mb-6">
-        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="0" aria-label="Digit 1" />
-        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="1" aria-label="Digit 2" />
-        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="2" aria-label="Digit 3" />
-        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="3" aria-label="Digit 4" />
-        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="4" aria-label="Digit 5" />
-        <input type="text" inputmode="numeric" maxlength="1" class="digit w-11 h-14 sm:w-12 sm:h-16 text-center text-xl font-semibold rounded-xl border-2 border-rose/30 bg-white/80 backdrop-blur focus:border-rose transition" data-index="5" aria-label="Digit 6" />
-      </div>
-
-      <p class="text-center text-sm text-gray-500 mb-4">
-        <span class="inline-flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-rose" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          Hint: <em class="text-deepRose not-italic font-medium">The day we met (MM/DD/YY)</em>
-        </span>
-      </p>
-
-      <p id="error-msg" class="hidden text-center text-sm text-red-500 mb-3">That&apos;s not quite right. Try again, bebelabs.</p>
-
-      <button
-        type="submit"
-        class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose to-deepRose text-white font-semibold shadow-lg shadow-rose/30 hover:shadow-xl hover:brightness-105 active:scale-[0.98] transition"
-      >
-        Open letter
-      </button>
-    </form>
   </section>
 
   <!-- Letter screen -->
@@ -181,12 +183,18 @@
       errorMsg.classList.add('hidden');
       lockScreen.classList.add('hidden');
       letterScreen.classList.remove('hidden');
+      document.body.classList.remove('lock-page');
+      document.body.classList.add('letter-page');
+      document.title = 'For You, Graduate';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function closeLetter() {
       letterScreen.classList.add('hidden');
       lockScreen.classList.remove('hidden');
+      document.body.classList.remove('letter-page');
+      document.body.classList.add('lock-page');
+      document.title = 'Access Required';
       clearDigits();
       errorMsg.classList.add('hidden');
     }
